@@ -12,9 +12,9 @@ import java.util.Date;
 @NoArgsConstructor
 public class TurnoDto {
     private Long idTurno;
-    private Long idServicio;
     private Date fechaTurno;
     private LocalTime horaInicio;
     private LocalTime horaFin;
     private String estado;
+    private ServicioDto servicio;
 }

@@ -20,8 +20,9 @@ public class TurnoEntity {
     @Column(name="id_turno", nullable = false)
     private Long idTurno;
 
-    @Column(name="id_servicio")
-    private Long idServicio;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_servicio", nullable = false)
+    private ServicioEntity servicio;
 
     @Column(name="fecha_turno")
     private Date fechaTurno;

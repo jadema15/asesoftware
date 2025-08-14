@@ -2,6 +2,7 @@ package com.asesoftware.turnos.models;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +13,7 @@ import java.time.LocalTime;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class ServicioEntity {
 
     @Id
@@ -19,8 +21,9 @@ public class ServicioEntity {
     @Column(name="id_servicio", nullable = false)
     private Long idServicio;
 
-    @Column(name="id_comercio")
-    private Long idComercio;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_comercio", nullable = false)
+    private ComercioEntity comercio;
 
     @Column(name="nom_servicio")
     private String nomServicio;

@@ -33,14 +33,16 @@ class TurnoServiceTest {
     @Test
     void testGetTurnoAll_withResults() {
         // Arrange
+        ServicioEntity servicioEntity = ServicioEntity.builder().idServicio(1L).build();
         List<TurnoEntity> listMock = List.of(
-                new TurnoEntity(1L, 1L,new Date(),LocalTime.now(), LocalTime.now(), "A"),
-                new TurnoEntity(2L, 1L,new Date(),LocalTime.now(), LocalTime.now(), "A")
+                new TurnoEntity(1L,servicioEntity, new Date(),LocalTime.now(), LocalTime.now(), "A" ),
+                new TurnoEntity(2L, servicioEntity,new Date(),LocalTime.now(), LocalTime.now(), "A")
         );
 
+        ServicioDto servicioDto = ServicioDto.builder().idServicio(1L).build();
         List<TurnoDto> dtoListMock = List.of(
-                new TurnoDto(1L, 1L,new Date(),LocalTime.now(), LocalTime.now(), "A" ),
-                new TurnoDto(2L, 1L,new Date(),LocalTime.now(), LocalTime.now(), "A" )
+                new TurnoDto(1L, new Date(),LocalTime.now(), LocalTime.now(), "A", servicioDto ),
+                new TurnoDto(2L,new Date(),LocalTime.now(), LocalTime.now(), "A", servicioDto )
         );
 
         when(turnoRepository.findAll()).thenReturn(listMock);

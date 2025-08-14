@@ -1,7 +1,9 @@
 package com.asesoftware.turnos.services.impl;
 
 import com.asesoftware.turnos.mappers.ServicioMapper;
+import com.asesoftware.turnos.models.ComercioEntity;
 import com.asesoftware.turnos.models.ServicioEntity;
+import com.asesoftware.turnos.models.dto.ComercioDto;
 import com.asesoftware.turnos.models.dto.ServicioDto;
 import com.asesoftware.turnos.repository.ServicioRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,14 +32,17 @@ class ServicioServiceTest {
     @Test
     void testGetServicioAll_withResults() {
         // Arrange
+        ComercioEntity comercioEntity = new ComercioEntity(1L, "a", 10);
         List<ServicioEntity> listMock = List.of(
-                new ServicioEntity(1L, 1L, "Servicio 1", LocalTime.now(), LocalTime.now(), 2 ),
-                new ServicioEntity(2L, 1L, "Servicio 2", LocalTime.now(), LocalTime.now(), 2 )
+                new ServicioEntity(1L, comercioEntity, "Servicio 1", LocalTime.now(), LocalTime.now(), 2 ),
+                new ServicioEntity(2L, comercioEntity, "Servicio 2", LocalTime.now(), LocalTime.now(), 2 )
         );
 
+        ComercioDto comercioDto = new ComercioDto(1L, "a", 10);
+
         List<ServicioDto> dtoListMock = List.of(
-                new ServicioDto(1L, 1L, "Servicio 1", LocalTime.now(), LocalTime.now(), 2 ),
-                new ServicioDto(2L, 1L, "Servicio 2", LocalTime.now(), LocalTime.now(), 2 )
+                new ServicioDto(1L,  "Servicio 1", LocalTime.now(), LocalTime.now(), 2, comercioDto ),
+                new ServicioDto(2L,  "Servicio 2", LocalTime.now(), LocalTime.now(), 3, comercioDto )
         );
 
         when(servicioRepository.findAll()).thenReturn(listMock);
