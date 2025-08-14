@@ -6,11 +6,12 @@ import com.asesoftware.turnos.models.dto.ComercioDto;
 import com.asesoftware.turnos.repository.ComercioRepository;
 import com.asesoftware.turnos.services.IComercioService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@Slf4j
 @Service
 @AllArgsConstructor
 public class ComercioService implements IComercioService {
@@ -23,6 +24,7 @@ public class ComercioService implements IComercioService {
         if(!listaComercio.isEmpty()){
             return comercioMapper.listToDto(listaComercio);
         }
+        log.info("No se han econtrado elementos");
         return new ArrayList<>();
     }
 }
