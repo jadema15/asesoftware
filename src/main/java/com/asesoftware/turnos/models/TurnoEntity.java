@@ -26,9 +26,6 @@ public class TurnoEntity {
     @Column(name="fecha_turno")
     private Date fechaTurno;
 
-    @Column(name="fecha_inicio")
-    private Date fechaInicio;
-
     @Column(name="hora_inicio")
     private LocalTime horaInicio;
 
