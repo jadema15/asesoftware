@@ -16,11 +16,12 @@ import java.util.List;
 public class ComercioService implements IComercioService {
 
     private ComercioRepository comercioRepository;
+    private final ComercioMapper comercioMapper;
     @Override
     public List<ComercioDto> getComercioAll() {
         List<ComercioEntity> listaComercio = comercioRepository.findAll();
         if(!listaComercio.isEmpty()){
-            return ComercioMapper.INSTANCE.listToDto(listaComercio);
+            return comercioMapper.listToDto(listaComercio);
         }
         return new ArrayList<>();
     }

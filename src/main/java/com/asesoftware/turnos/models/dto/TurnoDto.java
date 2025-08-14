@@ -1,14 +1,17 @@
 package com.asesoftware.turnos.models.dto;
 
-import java.time.format.DateTimeFormatter;
+import lombok.Data;
+
+import java.time.LocalTime;
 import java.util.Date;
 
+@Data
 public class TurnoDto {
     private Long idTurno;
     private Long idServicio;
     private Date fechaTurno;
     private Date fechaInicio;
-    private DateTimeFormatter horaInicio;
-    private DateTimeFormatter horaFin;
+    private LocalTime horaInicio;
+    private LocalTime horaFin;
     private String estado;
 }

@@ -9,7 +9,7 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface ComercioMapper {
-    ComercioMapper INSTANCE = Mappers.getMapper(ComercioMapper.class);
+    //ComercioMapper INSTANCE = Mappers.getMapper(ComercioMapper.class);
     ComercioDto toDto(ComercioEntity comercioEntity);
     ComercioEntity toEntity(ComercioDto comercioDto);
     List<ComercioDto> listToDto(List<ComercioEntity> list);
