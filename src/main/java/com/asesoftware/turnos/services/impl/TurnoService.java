@@ -1,5 +1,6 @@
 package com.asesoftware.turnos.services.impl;
 
+import com.asesoftware.turnos.exceptions.GenerarTurnoException;
 import com.asesoftware.turnos.mappers.TurnoMapper;
 import com.asesoftware.turnos.models.TurnoEntity;
 import com.asesoftware.turnos.models.dto.RequestTurnoDto;
@@ -44,7 +45,7 @@ public class TurnoService implements ITurnoService {
             turnoRepository.getGenerarTurno(fechaInicio,fechaFin , idServicio);
         }catch (Exception e){
             log.info("Se ha presentado el siguiente error {}", e.getMessage());
-            return false;
+            throw new GenerarTurnoException("Error al generar turno", e);
         }
         return true;
     }
