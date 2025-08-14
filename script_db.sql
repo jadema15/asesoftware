@@ -67,14 +67,12 @@ INSERT INTO public.servicios (duracion, hora_apertura, hora_cierre, id_comercio,
 
 -- 4. Crear procedimiento almacenado
 
-CREATE OR REPLACE PROCEDURE public.generarturno(
-    IN p_fecha_inicio timestamp without time zone,
-    IN p_fecha_fin timestamp without time zone,
-    IN p_id_servicio bigint
-)
-LANGUAGE plpgsql
+CREATE OR REPLACE PROCEDURE public.generarturno(IN p_fecha_inicio timestamp without time zone, IN p_fecha_fin timestamp without time zone, IN id_servicio bigint)
+ LANGUAGE plpgsql
 AS $procedure$ 
+
 DECLARE
+
     i INTEGER := 1;   
     j INTEGER := 0;   
     v_hora_apertura TIME;
@@ -86,42 +84,58 @@ DECLARE
     v_minutos_cierre INTEGER;
     v_minutos_totales INTEGER;
     v_cantidad_turnos INTEGER;
-    dias_total INTEGER := 1;
+   
+    v_fecha_base TIMESTAMP;
+   
+    dias_total INTEGER :=1;
+
 BEGIN 
-    RAISE NOTICE 'Procedimiento ejecutado';
+	raise notice 'Procedimiento ejecutado';
 
-    BEGIN
-        dias_total := p_fecha_fin::date - p_fecha_inicio::date;
-
-        SELECT s.hora_apertura, s.hora_cierre, s.duracion
-        INTO v_hora_apertura, v_hora_cierre, v_duracion
-        FROM public.servicios s
-        WHERE s.id_servicio = p_id_servicio;           
-
-        v_minutos_apertura := EXTRACT(HOUR FROM v_hora_apertura) * 60 + EXTRACT(MINUTE FROM v_hora_apertura);
-        v_minutos_cierre := EXTRACT(HOUR FROM v_hora_cierre) * 60 + EXTRACT(MINUTE FROM v_hora_cierre);
-        v_minutos_totales := v_minutos_cierre - v_minutos_apertura;
-
-        IF v_duracion > 0 THEN
-            v_cantidad_turnos := FLOOR(v_minutos_totales / v_duracion);
-
-            FOR j IN 0..dias_total LOOP
-                FOR i IN 1..v_cantidad_turnos LOOP          
-                    v_hora_inicio := v_hora_apertura + ((i - 1) * v_duracion) * INTERVAL '1 minute';
-                    v_hora_final := v_hora_apertura + (i * v_duracion) * INTERVAL '1 minute';	       
-
-                    INSERT INTO public.turnos (hora_fin, hora_inicio, fecha_turno, id_servicio, estado)
-                    VALUES (v_hora_final, v_hora_inicio, p_fecha_inicio + j * INTERVAL '1 day', p_id_servicio, 'A');
-                END LOOP;
-            END LOOP;                  
-        ELSE
-            RAISE NOTICE 'Duración inválida: %', v_duracion;
-            RETURN;
-        END IF;
-    EXCEPTION
-        WHEN OTHERS THEN
-            RAISE NOTICE 'Se ha presentado un error al ejecutar: %', SQLERRM;
-    END;
+	BEGIN
+		
+				dias_total := p_fecha_fin::date - p_fecha_inicio::date;
+		
+				SELECT s.hora_apertura, s.hora_cierre, s.duracion
+	        	INTO v_hora_apertura, v_hora_cierre, v_duracion
+	            FROM public.servicios s
+	            WHERE s.id_servicio = generarturno.id_servicio;           
+	      
+		        v_minutos_apertura := EXTRACT(HOUR FROM v_hora_apertura) * 60 + EXTRACT(MINUTE FROM v_hora_apertura);
+		        v_minutos_cierre := EXTRACT(HOUR FROM v_hora_cierre) * 60 + EXTRACT(MINUTE FROM v_hora_cierre);
+		        v_minutos_totales := v_minutos_cierre - v_minutos_apertura;
+	
+		        IF v_duracion > 0 THEN
+		            v_cantidad_turnos := FLOOR(v_minutos_totales / v_duracion);
+		           
+		           FOR j IN 0..(dias_total) loop
+			           
+			           v_fecha_base := p_fecha_inicio + (j || ' days')::interval;
+			           
+			             FOR i IN 1..(v_cantidad_turnos) LOOP        
+				             RAISE NOTICE 'i = %, v_cantidad_turnos = %', i, v_cantidad_turnos;
+		           
+			          		v_hora_inicio := v_hora_apertura + ((i - 1) * v_duracion) * INTERVAL '1 minute';
+                    		v_hora_final := v_hora_inicio + (v_duracion * INTERVAL '1 minute');
+		
+			             	 INSERT INTO
+								public.turnos (hora_fin, hora_inicio, fecha_turno, id_servicio,	estado)
+							 VALUES(v_hora_final ,v_hora_inicio, v_fecha_base, id_servicio, 'A' );
+		             
+		            	END LOOP;
+		           	
+		           END LOOP;                  
+		         
+		        ELSE
+		            RAISE NOTICE 'Duración inválida: %', v_duracion;
+		            RETURN;
+		        END IF;
+	
+	exception
+	when others then raise notice 'Se ha presentado un error al ejecutar: %',
+	sqlerrm;
+	END;
 END;
-$procedure$;
 
+$procedure$
+;
