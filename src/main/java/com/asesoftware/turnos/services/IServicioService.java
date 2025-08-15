@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface IServicioService {
     List<ServicioDto> getServicioAll();
+    List<ServicioDto> getServicioByComercio(Long idComercio);
 }

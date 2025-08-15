@@ -8,10 +8,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -34,5 +31,16 @@ public class ServicioController {
     @GetMapping
     public ResponseEntity<List<ServicioDto>> getServicioAll(){
         return ResponseEntity.of(Optional.ofNullable(servicio.getServicioAll()));
+    }
+
+    @Operation(summary = "Obtener todos los servicios por comercio", description = "Retorna lista de todos los servicios disponibles por comercio")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Lista de servicios obtenida correctamente"),
+            @ApiResponse(responseCode = "404", description = "No se encontraron servicios"),
+            @ApiResponse(responseCode = "500", description = "Error en la ejecución de la lógica de negocio.")
+    })
+    @GetMapping("/comercio/{id}")
+    public ResponseEntity<List<ServicioDto>> getServicioByComercio(@PathVariable Long id){
+        return ResponseEntity.of(Optional.ofNullable(servicio.getServicioByComercio(id)));
     }
 }

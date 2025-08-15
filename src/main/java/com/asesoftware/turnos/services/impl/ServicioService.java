@@ -1,6 +1,7 @@
 package com.asesoftware.turnos.services.impl;
 
 import com.asesoftware.turnos.mappers.ServicioMapper;
+import com.asesoftware.turnos.models.ComercioEntity;
 import com.asesoftware.turnos.models.ServicioEntity;
 import com.asesoftware.turnos.models.dto.ServicioDto;
 import com.asesoftware.turnos.repository.ServicioRepository;
@@ -21,6 +22,16 @@ public class ServicioService implements IServicioService {
     @Override
     public List<ServicioDto> getServicioAll() {
         List<ServicioEntity> listaServicios = servicioRepository.findAll();
+        if(!listaServicios.isEmpty()){
+            return servicioMapper.listToDto(listaServicios);
+        }
+        log.info("No se han econtrado elementos");
+        return new ArrayList<>();
+    }
+
+    public List<ServicioDto> getServicioByComercio(Long idComercio) {
+        ComercioEntity comercio = ComercioEntity.builder().idComercio(idComercio).build();
+        List<ServicioEntity> listaServicios = servicioRepository.findByComercio(comercio);
         if(!listaServicios.isEmpty()){
             return servicioMapper.listToDto(listaServicios);
         }
