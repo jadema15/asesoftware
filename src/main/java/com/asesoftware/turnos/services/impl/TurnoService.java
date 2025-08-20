@@ -49,4 +49,15 @@ public class TurnoService implements ITurnoService {
         }
         return true;
     }
+
+    @Override
+    public Boolean eliminarAllTurnos() {
+        try{
+            turnoRepository.eliminarallturnos();
+        }catch (Exception e){
+            log.info("Se ha presentado el siguiente error {}", e.getMessage());
+            throw new GenerarTurnoException("Error al eliminar todos los turnos", e);
+        }
+        return true;
+    }
 }

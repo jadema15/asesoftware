@@ -21,4 +21,9 @@ public interface TurnoRepository extends JpaRepository<TurnoEntity, Long> {
             @Param("fechaFin") Timestamp fechaFin,
             @Param("idServicio") Long idServicio
     );
+
+    @Modifying
+    @Transactional
+    @Query(value = "CALL public.eliminarallturnos()", nativeQuery = true)
+    void eliminarallturnos();
 }

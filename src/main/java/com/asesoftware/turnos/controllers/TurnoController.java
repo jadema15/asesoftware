@@ -44,4 +44,15 @@ public class TurnoController {
     public ResponseEntity<Boolean> postGenerarTurno(@RequestBody RequestTurnoDto requestTurnoDto){
         return ResponseEntity.of(Optional.ofNullable(turnoService.getGenerarTurno(requestTurnoDto)));
     }
+
+    @Operation(summary = "Elimina todos los turnos", description = "Elimina todos los turnos registrados")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Turnos eliminados con éxito"),
+            @ApiResponse(responseCode = "404", description = "No se ha encontrado recurso"),
+            @ApiResponse(responseCode = "500", description = "Error en la ejecución de la lógica de negocio.")
+    })
+    @DeleteMapping()
+    public ResponseEntity<Boolean> eliminarAllTurnos(){
+        return ResponseEntity.of(Optional.ofNullable(turnoService.eliminarAllTurnos()));
+    }
 }

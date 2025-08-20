@@ -8,4 +8,6 @@ import java.util.List;
 public interface ITurnoService {
     List<TurnoDto> getTurnosAll();
     Boolean getGenerarTurno(RequestTurnoDto requestTurnoDto);
+
+    Boolean eliminarAllTurnos();
 }
