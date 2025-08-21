@@ -15,6 +15,8 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.asesoftware.turnos.contants.Messages.*;
+
 @Slf4j
 @Service
 @AllArgsConstructor
@@ -31,7 +33,7 @@ public class TurnoService implements ITurnoService {
                 return turnoMapper.listToDto(listaTurnos);
             }
         }catch (Exception e){
-            log.info("Se ha presentado el siguiente error {}", e.getMessage());
+            log.info(MENSAJE_ERROR, e.getMessage());
         }
         return new ArrayList<>();
     }
@@ -44,7 +46,7 @@ public class TurnoService implements ITurnoService {
         try{
             turnoRepository.getGenerarTurno(fechaInicio,fechaFin , idServicio);
         }catch (Exception e){
-            log.info("Se ha presentado el siguiente error {}", e.getMessage());
+            log.info(MENSAJE_ERROR, e.getMessage());
             throw new GenerarTurnoException("Error al generar turno", e);
         }
         return true;
@@ -55,7 +57,7 @@ public class TurnoService implements ITurnoService {
         try{
             turnoRepository.eliminarallturnos();
         }catch (Exception e){
-            log.info("Se ha presentado el siguiente error {}", e.getMessage());
+            log.info(MENSAJE_ERROR, e.getMessage());
             throw new GenerarTurnoException("Error al eliminar todos los turnos", e);
         }
         return true;

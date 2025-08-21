@@ -125,6 +125,7 @@ class TurnoServiceTest {
     @Test
     void testDeleteTurno_Success(){
         // Arrange
+        doNothing().when(turnoRepository).eliminarallturnos();
         // Act
         Boolean result = turnoService.eliminarAllTurnos();
 
@@ -136,15 +137,16 @@ class TurnoServiceTest {
     @Test
     void testDeleteTurno_ThrowsException() {
         // Arrange
-
         doThrow(new RuntimeException("Se ha presentado un error en el PR")).when(turnoRepository).eliminarallturnos();
 
         // Act & Assert
         GenerarTurnoException exception = assertThrows(GenerarTurnoException.class, () -> {
             turnoService.eliminarAllTurnos();
         });
-
+        
+        // Assert
         assertEquals("Error al eliminar todos los turnos", exception.getMessage());
         verify(turnoRepository, times(1)).eliminarallturnos();
+
     }
 }
