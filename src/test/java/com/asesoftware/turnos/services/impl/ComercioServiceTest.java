@@ -6,6 +6,8 @@ import com.asesoftware.turnos.models.dto.ComercioDto;
 import com.asesoftware.turnos.repository.ComercioRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import java.util.List;
@@ -15,8 +17,11 @@ import static org.mockito.Mockito.when;
 
 class ComercioServiceTest {
 
+    @Mock
     private ComercioRepository comercioRepository;
+    @Mock
     private ComercioMapper comercioMapper;
+    @InjectMocks
     private ComercioService comercioService;
         @BeforeEach
         void setUp() {
